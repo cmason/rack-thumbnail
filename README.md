@@ -11,26 +11,25 @@ Install
     gem 'thumbnail', :git => 'git://github.com/christianhellsten/thumbnail.git'
     gem 'rack-thumbnail', :git => 'git://github.com/christianhellsten/rack-thumbnail.git'
 
+Sinatra:
+    use Rack::Thumbnail::Middleware, :uri => '/images'
+
+Rails (application.rb):
+    config.middleware.use "Rack::Thumbnail::Middleware", :uri => '/images'
+
 Usage
 =====
 
-Use case 1: Allow any image under /images to be resized to any size
+Allow pre-defined named thumbnails to be created via URLs, e.g. /images/cat-large.png:
 
-Resize me.png to 1280x1024:
+    Rack::Thumbnail.register :large, width: 940, height: 150, gravity: :north
+    Rack::Thumbnail.register :small, width: 620, height: 100, gravity: :north
 
-    # e.g. /images/me-1280x1024.png
-    use Rack::Thumbnail, :uri => '/images'
+Allow 900x100 and 600x50 thumbnails to be created via URLs, e.g. /images/cat-900x100.png:
 
-Use case 2: Allow any image under /images to be resized to 50x50 or 150x150
+    Rack::Thumbnail.register '900x100'
+    Rack::Thumbnail.register '600x50'
 
-Resize me.png to 150x150:
+Allow thumbnails of any size to be created via URLs, e.g. /images/cat-10x10.png:
 
-    # e.g. /images/me-150x150.png
-    use Rack::Thumbnail, :uri => '/images', :dimensions => ['50x50', '150x150']
-
-Use case 3: Allow any image under /images to be resized to 50x50 or 150x150. Allow padding or cutting of thumbnails to fit given dimensions.
-
-Resize me.png to 150x150 and cut image to fit size:
-
-    # e.g. /images/me-50x50-cut.png
-    use Rack::Thumbnail, :uri => '/images', :dimensions => ['50x50', '150x150'], :methods => { :pad => :pad_to_fit, :crop => :cut_to_fit }
+    Rack::Thumbnail.allow_any_size = true

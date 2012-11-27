@@ -12,9 +12,11 @@ Install
     gem 'rack-thumbnail', :git => 'git://github.com/christianhellsten/rack-thumbnail.git'
 
 Sinatra:
+
     use Rack::Thumbnail::Middleware, :uri => '/images'
 
 Rails (application.rb):
+
     config.middleware.use "Rack::Thumbnail::Middleware", :uri => '/images'
 
 Usage

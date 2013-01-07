@@ -15,7 +15,7 @@ module Rack
         def size(dimensions, options={})
           width, height = dimensions.split('x')
           raise "Invalid dimensions #{dimensions.inspect}. Should be <width>x<height>!" unless width && height
-          options.merge!(width: width, height: height)
+          options.merge!(:width => width, :height => height)
           named(dimensions, options)
         end
 

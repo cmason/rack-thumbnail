@@ -6,9 +6,22 @@ module Rack
         @uri_regex = /(-\w+\.)(.+)?$/
         @public_dir = options.fetch(:public_dir, 'public')
         @path = env["PATH_INFO"]
-        @destination = ::File.join(@public_dir, @path)
+        @destination = destination
         # <width>x<height> or <name>
         @match = $1[1..-2] if @path.match(@uri_regex)
+      end
+      
+      # Returns path to thumbnail, e.g. public/images/thumbnail.png
+      def destination
+        res = @path
+        ext = File.extname(res)
+        # remove extension
+        if ext
+          res = res[0...(res.size-ext.size)]
+        end
+        # Always use PNG
+        res += '.png'
+        ::File.join(@public_dir, res)
       end
 
       def process

@@ -14,7 +14,7 @@ module Rack
       # Returns path to thumbnail, e.g. public/images/thumbnail.png
       def destination
         res = @path
-        ext = File.extname(res)
+        ext = ::File.extname(res)
         # remove extension
         if ext
           res = res[0...(res.size-ext.size)]
